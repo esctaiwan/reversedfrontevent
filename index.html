@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>逆統戰事件卡產生器</title>
+</head>
+<body>
+	<label for="fnameA">【逆統戰事件卡產生器】介面簡陋請見諒</label>
+	<br>
+	<br>
+	<label for="fnameA">逆統戰桌遊介紹：https://zecz.ec/347rnRi</label>
+	<br>
+	<br>
+	<label for="fname0">事件圖片：</label>
+	<input type="file" id="file">
+	<br>
+	<label for="fname1">事件名稱：</label>
+	<input type="text" id="fname1" value="　D級北京喰種出現">
+	<br>
+	<label for="fname2">任務條件內容：</label>
+	<input type="text" id="fname2" value="　執行北京封城">
+	<br>
+	<label for="fname">懲罰內容：</label>
+	<input type="text3" id="fname3" value="  觸發舌尖上的北京">
+	<br>
+	<label for="fname4">獎勵內容：</label>
+	<input type="text" id="fname4" value="　　　　　　   獲得習包的赫包">
+	<br>
+	<br>
+	<button onclick="all_event()">產生事件卡</button>
+	<label for="fname5">圖片出現後對圖片右鍵（電腦）／長按（手機）另存圖片即可使用</label>
+	<br>
+	<canvas id="mycanvas" width="861px" height="609px"></canvas>
+	<img id="bg" src="back.png" alt="" style="display: none;">
+	<img id="pic" src="bear.png" alt="" style="display: none;">
+	<img id="blck" src="black.png" alt="" style="display: none;">
+	<script>
+		var canvas = document.getElementById('mycanvas');
+		var ctx = canvas.getContext('2d');
+		var background = document.getElementById("bg");
+		var pic = document.getElementById("pic");
+		var inpic = document.getElementById("file");
+		var blck = document.getElementById("blck");
+		inpic.addEventListener("change",function(){uv(this);});
+		function uv(input){
+			var reader;
+			if (input.files && input.files[0]){
+				reader = new FileReader();
+				reader.onload = function(e){
+					pic.setAttribute('src',e.target.result);
+				}
+				reader.readAsDataURL(input.files[0]);
+			}
+		}
+		function d2(){
+			ctx.drawImage(blck,0,0,861,609);
+		}
+		function d3(){
+			ctx.drawImage(background,0,0,861,609);
+		}
+		function d1(){
+			var vx = 118;
+			var vy = 128;
+			var vw = 631;
+			var vh = 353;
+			var iw = pic.width;
+			var ih = pic.height;
+			var iprod =0;
+			if (vw/iw > vh/ih){
+				iprod = vh/ih;
+			}else{
+				iprod = vw/iw;
+			}
+			var bx = (vw - iw * iprod) / 2;
+			var by = (vh - ih * iprod) / 2;
+
+			ctx.drawImage(pic,vx+bx,vy+by,iw*iprod,ih*iprod);
+		}
+		function d4(){
+			ctx.font = "normal bold 36px 微軟正黑體";
+			ctx.fillStyle = "white";
+			var tex = document.getElementById("fname1").value;
+			ctx.fillText(tex,423,46); // 調事件名稱位置 x:423 y:51
+		}
+		function d5(){
+			ctx.font = "normal bold 36px 微軟正黑體";
+			ctx.fillStyle = "white";
+			var tex = document.getElementById("fname2").value;
+			var spl = tex.split("");
+			var iter = tex.length;
+			for (i = 0 ;i<iter;i++){
+				ctx.fillText(spl[i],7,200+i*36);// 調任務條件位置 x:10 y:218 (i*30 這30是每個文字間隔)
+			}
+		}
+		function d6(){
+			ctx.font = "normal bold 36px 微軟正黑體";
+			ctx.fillStyle = "white";
+			var tex = document.getElementById("fname3").value;
+			var spl = tex.split("");
+			var iter = tex.length;
+			for (i = 0 ;i<iter;i++){
+				ctx.fillText(spl[i],817,128+i*36);// 調失敗懲罰位置 x:814 y:135 (i*30 這30是每個文字間隔)
+			}
+		}
+		function d7(){
+			ctx.font = "normal bold 36px 微軟正黑體";
+			ctx.fillStyle = "white";
+			var tex = document.getElementById("fname4").value;
+			ctx.fillText(tex,63,590);// 調成功獎勵位置 x:63 y:600
+		}
+		function all_event(){
+			ctx.clearRect(0,0,canvas.width,canvas.height);
+			d2();
+			d1();
+			d3();
+			d4();
+			d5();
+			d6();
+			d7();
+		}
+
+	</script>
+</body>
+</html>
